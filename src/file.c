@@ -32,7 +32,11 @@ void file_get_text(char *filename){
 
     bzero(buf, LINEBUF_LEN);
 
-    for(int i = 0; (ch = getchar()) != KEY_ESC; i++){
+    rewind(fp);
+    int offset = 0;
+    for(offset = 0; (buf[offset] = fgetc(fp)) != EOF; offset++);
+
+    for(int i = offset; (ch = getchar()) != KEY_ESC; i++){
         if(ch == '\\'){
             file_save(filename, buf);
             file_redraw();
