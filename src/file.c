@@ -24,20 +24,24 @@ void file_get_text(char *filename){
 
     tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
+    file_redraw();
+
     char ch = '\0';
 
     char buf[LINEBUF_LEN];
 
     bzero(buf, LINEBUF_LEN);
 
-    int i = 0;
-
-    for(i = 0; (ch = getchar()) != '|'; i++){
+    for(int i = 0; (ch = getchar()) != KEY_ESC; i++){
         if(ch == '\\'){
             file_save(filename, buf);
             file_redraw();
             i--;
             continue;
+        }
+        else if(ch == KEY_BACKSPACE){
+            buf[i--] = ' ';
+            file_redraw();
         }
 
         buf[i] = ch;
@@ -49,6 +53,13 @@ void file_get_text(char *filename){
 void file_redraw(){
     char linebuf[LINEBUF_LEN];
     int lineNumber = 0;
+
+    printf(CLEAR);
+
+    rewind(fp);
+
+    printf("--Press [ESC] to quit--\n"
+           "--Press [\\] to save--\n\n");
 
     for(lineNumber = 0; fgets(linebuf, LINEBUF_LEN, fp) != NULL; lineNumber++){
         printf("%s", linebuf);

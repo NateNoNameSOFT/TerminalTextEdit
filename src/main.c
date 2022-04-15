@@ -5,6 +5,8 @@
 
 int main(int argc, char *argv[]){
 
+    printf(CLEAR);
+
     signal(SIGINT, handle_exit);
     signal(SIGSEGV, handle_exit);
 

@@ -7,6 +7,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define CLEAR "\e[1;1H\e[2J"
+
+#define KEY_ESC 27
+#define KEY_BACKSPACE 127
+
 extern FILE *fp;
 
 void file_open(char *filename);
